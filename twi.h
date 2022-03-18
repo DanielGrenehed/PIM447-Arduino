@@ -12,11 +12,11 @@ void TWI_init(void);
 void loop_until_TWI_interrupt();
 
 void TWI_start(void);
+void TWI_stop(void);
+
 unsigned char TWI_start_write(unsigned char address);
 unsigned char TWI_start_read(unsigned char address);
 
-
-void TWI_stop(void);
 
 void TWI_write(unsigned char data);
 

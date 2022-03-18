@@ -52,14 +52,14 @@ void TWI_write(uint8_t data) {
 }
 
 void TWI_SDA_R(uint8_t address) {
-    TWI_write((address << 1 ) | 1);
+    TWI_write((address << 1) | 1);
 }
 
 void TWI_SDA_W(uint8_t address) {
     TWI_write((address << 1) & (~1));
 }
 
-uint8_t TWI_status(void) {
+uint8_t TWI_status(void) { 
     return TWSR & 0xF8;
 }
 

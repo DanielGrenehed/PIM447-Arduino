@@ -48,4 +48,17 @@ void uart_echo(void) {
     uart_putchar(uart_getchar());
 }
 
+void print_hex_value(uint8_t nibble) {
+    nibble &= 0x0F; 
+    if (nibble < 10) uart_putchar(nibble+48);
+    else uart_putchar(nibble + 55);
+}
+
+void print_hex(uint8_t in) {
+    uint8_t upper = in >> 4;
+    uart_putstr(" 0x");
+    print_hex_value(upper);
+    print_hex_value(in);
+}    
+
 #include "serial.h"
