@@ -1,4 +1,6 @@
+#ifndef __AVR_ATmega328P__
 #define __AVR_ATmega328P__
+#endif /**/
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "twi.h"
@@ -7,14 +9,24 @@
 #define TW_SDA_PIN			PORTC4
 
 void TWI_init(void) {
-
+    /*
+        Setup TWI pins
+    */
     DDRC  |= _BV(TW_SDA_PIN) | _BV(TW_SCL_PIN);
     PORTC |= (1 << TW_SDA_PIN) | (1 << TW_SCL_PIN); // pullup
     DDRC  &= ~((1 << TW_SDA_PIN) | (1 << TW_SCL_PIN));
 
-    TWSR = 0x00; // Set prescaler value to 1
-    TWBR = 0x18; // 16MHz / 16 + 2 * TWBR(24) * PSV(1) == 250kHz
-    TWCR |= _BV(TWEN); // Enable TWI
+    /*
+        Set TWI clock
+    */
+    TWSR = 0x01; // Set prescaler value to 1
+    //TWBR = 0x18; // 16MHz / 16 + 2 * TWBR(24) * PSV(1) == 250kHz
+    TWBR = 0x02;
+
+    /*
+        Enable Two Wire Interface
+    */
+    TWCR |= _BV(TWEN);
 
 }
 
@@ -23,7 +35,10 @@ void loop_until_TWI_interrupt() {
 }
 
 void TWI_start(void) {
-    TWCR = _BV(TWINT) | _BV(TWEN) | _BV(TWSTA); // reset flag and set startrs
+    /*
+        Start TWI communication and 
+    */
+    TWCR = _BV(TWINT) | _BV(TWEN) | _BV(TWSTA);
     loop_until_TWI_interrupt();
 }
 
